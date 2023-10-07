@@ -28,6 +28,8 @@ public class OutboxService {
         log.info("Debezium payload: {}", payload);
         try {
             kafkaPublisher.publish("account-created", MAPPER.writeValueAsString(payload));
+            var x = MAPPER.writeValueAsString(payload);
+            log.info("Debezium payload: {}", x);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

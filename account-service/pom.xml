@@ -38,7 +38,7 @@
         <!-- Kafka -->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId><!-- https://mvnrepository.com/artifact/io.debezium/debezium-api -->
+            <artifactId>spring-kafka</artifactId>
         </dependency>
 
         <!-- Debezium -->

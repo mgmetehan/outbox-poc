@@ -1,0 +1,4 @@
+kafka:
+  brokers: localhost:59092
+server:
+  port: 8098

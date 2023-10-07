@@ -1,4 +1,4 @@
-package com.mgmetehan.accountservice.config.kafka;
+package com.mgmetehan.mailservice.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
