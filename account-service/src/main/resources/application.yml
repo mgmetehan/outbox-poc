@@ -1,0 +1,15 @@
+kafka:
+  brokers: localhost:59092
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/outbox_poc
+    username: postgres
+    password: toor
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: 'true'
+    hibernate:
+      ddl-auto: update
