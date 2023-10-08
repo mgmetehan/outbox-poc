@@ -1,5 +1,6 @@
 package com.mgmetehan.accountservice.service;
 
+import com.mgmetehan.accountservice.converter.AccountConverter;
 import com.mgmetehan.accountservice.converter.OutboxConverter;
 import com.mgmetehan.accountservice.dto.CreateAccountDto;
 import com.mgmetehan.accountservice.model.Account;
@@ -16,15 +17,15 @@ public class AccountService {
     private final AccountRepository accountRepository;
     private final OutboxService outboxService;
 
-    public Account createAccount(CreateAccountDto account) {
-        Account newAccount = new Account();
-        newAccount.setUsername(account.getUsername());
-        newAccount.setMail(account.getMail());
-        newAccount.setPassword(account.getPassword());
+    public Account createAccount(CreateAccountDto dto) {
+        Account newAccount = AccountConverter.fromDto(dto);
         newAccount.setMailStatus(MailStatus.CREATED);
-        log.info("Account created: {}", newAccount);
-        outboxService.createOutbox(OutboxConverter.convertToOutbox(newAccount));
+        Account savedAccount = accountRepository.save(newAccount);
+        log.info("Account created: {}", savedAccount);
+
+        outboxService.createOutbox(OutboxConverter.convertToOutbox(savedAccount));
         log.info("Outbox created");
-        return accountRepository.save(newAccount);
+
+        return savedAccount;
     }
 }

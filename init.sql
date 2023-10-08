@@ -11,7 +11,6 @@ CREATE TABLE "public"."accounts"
     "username"     character varying(255),
     "mail"         character varying(255),
     "password"     character varying(255),
-    "description"  text,
     "mailstatus"   character varying(255),
     "created_date" timestamp,
     CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")

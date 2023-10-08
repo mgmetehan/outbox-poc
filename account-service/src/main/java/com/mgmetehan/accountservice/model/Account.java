@@ -13,7 +13,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+
+import static java.time.LocalDateTime.now;
 
 @Data
 @Entity
@@ -33,15 +35,13 @@ public class Account {
 
     private String password;
 
-    private String description;
-
     private MailStatus mailStatus;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    private Date createdDate;
 
     @PrePersist
     private void prePersist() {
-        createdDate = LocalDateTime.now();
+        createdDate = Date.from(now().toInstant(java.time.ZoneOffset.UTC));
     }
 }
