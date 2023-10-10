@@ -1,7 +1,9 @@
 package com.mgmetehan.accountservice.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mgmetehan.accountservice.model.Account;
 import com.mgmetehan.accountservice.model.Outbox;
 import com.mgmetehan.accountservice.publisher.KafkaPublisher;
 import com.mgmetehan.accountservice.repository.OutboxRepository;
@@ -9,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -41,6 +45,29 @@ public class OutboxService {
     }
 
     public void deleteById(String id) {
-        outboxRepository.deleteById(id);
+        log.info("Delete {}", id);
+        log.info("Outbox id {}", findMatchingIdInPayload(id));
+        outboxRepository.deleteById(findMatchingIdInPayload(id));
+    }
+
+    public String findMatchingIdInPayload(String targetId) {
+        List<Outbox> outboxList = findAll();
+
+        for (Outbox outbox : outboxList) {
+            String payload = outbox.getPayload();
+            try {
+                // Payload JSON
+                JsonNode jsonNode = new ObjectMapper().readTree(payload);
+                String payloadId = jsonNode.get("id").asText();
+
+                // Hedef id ile eslesen id'yi bul
+                if (targetId.equals(payloadId)) {
+                    return outbox.getId(); // Eşleşen id'yi döndürün
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }
