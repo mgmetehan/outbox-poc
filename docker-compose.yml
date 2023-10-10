@@ -1,31 +1,34 @@
 version: '3'
 services:
 
+  # Kafka hizmeti, Kafka sunucusunu baslatir.
   kafka:
     image: confluentinc/cp-kafka:latest
     container_name: kafka-broker
     depends_on:
-      - zookeeper
+      - zookeeper  # Kafka'nin calisabilmesi icin ZooKeeper hizmetine baglidir.
     ports:
-      - 59092:59092
+      - 59092:59092  # Kafka'ya disaridan erisim saglar.
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  # Kafka'nin ZooKeeper ile iletisim kurmasini saglar.
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:59092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # Offset konularinin cogaltma faktorunu ayarlar.
 
+  # ZooKeeper hizmeti, Kafka icin koordinasyon ve konfigurasyon depolama saglar.
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-      ZK_SERVER_HEAP: "-Xmx256M -Xms256M"
+      ZK_SERVER_HEAP: "-Xmx256M -Xms256M"  # ZooKeeper'in bellek yapilandirmalarini belirler.
     ports:
-      - 52181:2181
+      - 52181:2181  # ZooKeeper'a disaridan erisim saglar.
 
+  # Kafka Connect hizmeti, Kafka veri akislarini kaydetmek ve islemek icin kullanilir.
   kafka_connect:
     container_name: kafka_connect
     image: debezium/connect
@@ -33,19 +36,20 @@ services:
       - db
       - kafka
     ports:
-      - '8083:8083'
+      - '8083:8083'  # Kafka Connect REST API'ya disaridan erisim saglar.
     environment:
-      - BOOTSTRAP_SERVERS=kafka:9092
+      - BOOTSTRAP_SERVERS=kafka:9092  # Kafka sunucusuna baglanma ayarlarini tanimlar.
       - GROUP_ID=medium_debezium
       - CONFIG_STORAGE_TOPIC=my_connect_configs
       - OFFSET_STORAGE_TOPIC=my_connect_offsets
       - STATUS_STORAGE_TOPIC=my_connect_statuses
 
+  # Kafka UI hizmeti, Kafka kumesini izlemek ve yonetmek icin bir kullanici arayuzu saglar.
   kafka-ui:
     container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest
     ports:
-      - "9091:8080"
+      - "9091:8080"  # Kafka UI'ya disaridan erisim saglar.
     restart: always
     depends_on:
       - kafka
@@ -55,6 +59,7 @@ services:
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
 
+  # Veritabani hizmeti, ornek bir PostgreSQL veritabanini baslatir.
   db:
     image: debezium/example-postgres
     restart: always
@@ -62,7 +67,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: toor
     ports:
-      - 5432:5432
+      - 5432:5432  # PostgreSQL veritabanina disaridan erisim saglar.
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command:
@@ -70,10 +75,11 @@ services:
       - "-c"
       - "wal_level=logical"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/create-db-tables.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/create-db-tables.sql  # Ilk veritabani tablolarini olusturan SQL dosyasini yukler.
 
+  # Adminer hizmeti, veritabani yonetim arayuzu saglar.
   adminer:
     image: adminer
     restart: always
     ports:
-      - 8001:8080
+      - 8001:8080  # Adminer'a disaridan erisim saglar.
