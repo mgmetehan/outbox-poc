@@ -23,8 +23,6 @@ public class Outbox {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    private String aggregateType;
-
     private String type;
 
     @Column(length = 2000)

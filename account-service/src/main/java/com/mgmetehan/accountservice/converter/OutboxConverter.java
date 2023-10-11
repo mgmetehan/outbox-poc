@@ -14,7 +14,6 @@ public class OutboxConverter {
         try {
             String payload = MAPPER.writeValueAsString(account);
             return Outbox.builder()
-                    .aggregateType("Account")
                     .type("Account Created")
                     .payload(payload)
                     .build();

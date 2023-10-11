@@ -15,4 +15,7 @@ public class MailService {
         log.info("MailService: {}", id);
         kafkaPublisher.publish("delete-process-byId-from-outbox", id);
     }
+    public void sendMail(String username) {
+        log.info("Hello,{} Nice to meet you!", username);
+    }
 }

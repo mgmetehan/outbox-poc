@@ -20,7 +20,6 @@ CREATE TABLE "public"."accounts"
 CREATE TABLE "public"."outboxs"
 (
     "id"            uuid NOT NULL,
-    "aggregateType" character varying(255),
     "type"          character varying(255),
     "payload"       character varying(2000),
     CONSTRAINT "outboxs_pkey" PRIMARY KEY ("id")

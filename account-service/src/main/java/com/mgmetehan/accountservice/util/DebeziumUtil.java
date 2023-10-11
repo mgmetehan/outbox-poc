@@ -51,7 +51,7 @@ public class DebeziumUtil {
         Struct sourceRecordValue = (Struct) sourceRecord.value();
         var crudOperation = (String) sourceRecordValue.get(OPERATION);
         //r for read //c for create //u for updates //d for delete
-        if (sourceRecordValue != null && crudOperation == "c") {
+        if (sourceRecordValue != null && (crudOperation == "c" || crudOperation == "u")) {
             Struct struct = (Struct) sourceRecordValue.get(AFTER);
             Map<String, Object> payload = struct.schema().fields().stream()
                     .filter(field -> struct.get(field) != null)

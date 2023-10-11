@@ -16,7 +16,6 @@ public class OutboxController {
 
     private final OutboxService outboxService;
 
-
     @GetMapping
     public List<Outbox> getOutboxes() {
         return outboxService.findAll();
