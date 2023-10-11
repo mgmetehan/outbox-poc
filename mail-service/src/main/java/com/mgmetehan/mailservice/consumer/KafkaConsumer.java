@@ -15,15 +15,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaConsumer {
-    private final MailService mailService;
-
     private static final String TOPIC_NAME = "account-created";
     private static final String GROUP_ID = "GroupId";
-    private static final String Container_Factory = "ContainerFactory";
+    private static final String CONTAINER_FACTORY = "ContainerFactory";
 
+    private final MailService mailService;
     private final ObjectMapper MAPPER = new ObjectMapper();
 
-    @KafkaListener(topics = {TOPIC_NAME}, groupId = GROUP_ID, containerFactory = Container_Factory)
+    @KafkaListener(topics = {TOPIC_NAME}, groupId = GROUP_ID, containerFactory = CONTAINER_FACTORY)
     public void listener(@Payload Object event, ConsumerRecord c) throws Exception {
         String value = (String) c.value();
         JsonNode payload = MAPPER.readTree(value);

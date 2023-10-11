@@ -39,9 +39,9 @@ public class DebeziumUtil {
         }
     }
 
-    public DebeziumUtil(Configuration sagaConnector, OutboxService outboxService) {
+    public DebeziumUtil(Configuration configuration, OutboxService outboxService) {
         this.engine = EmbeddedEngine.create()
-                .using(sagaConnector)
+                .using(configuration)
                 .notifying(this::handleEvent)
                 .build();
         this.outboxService = outboxService;

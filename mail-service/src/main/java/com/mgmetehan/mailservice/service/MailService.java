@@ -12,7 +12,7 @@ public class MailService {
     private final KafkaPublisher kafkaPublisher;
 
     public void deleteProcessByIdFromOutbox(String id) {
-        log.info("MailService: {}", id);
+        log.info("MailService delete proccess: {}", id);
         kafkaPublisher.publish("delete-process-byId-from-outbox", id);
     }
     public void sendMail(String username) {
