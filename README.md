@@ -10,6 +10,11 @@
 - [Ornek Senaryo](#ornek-senaryo)
 - [Debezium nedir?](#debezium-nedir)
 - [Debezium'in Bazi Temel Ozellikleri Sunlardir:](#debeziumin-bazi-temel-ozellikleri-sunlardir)
+- [Docker Uzerinde Calistirmak Icin:](#docker-uzerinde-calistirmak-icin)
+- [Tech Stack](#tech-stack)
+- [Requirements](#requirements)
+- [Build & Run](#build--run)
+- [Kaynakca](#kaynakca)
 
 ## Outbox Design Pattern Nedir?
 
