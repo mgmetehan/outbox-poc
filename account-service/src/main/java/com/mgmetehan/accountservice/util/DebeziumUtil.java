@@ -22,7 +22,9 @@ import static io.debezium.data.Envelope.FieldName.OPERATION;
 @Slf4j
 @Component
 public class DebeziumUtil {
+// Bu sinif, Debezium adli bir degisiklik veri yakalama aracinin kullanimini icerir.
 
+    //Bu Executor, arka planda calisan is parcaciklarini yonetmeye ve calistirmaya olanak tanir.
     private final Executor executor = Executors.newSingleThreadExecutor(); // Executor kullanarak bir is parcasi olusturuldu.
     private final EmbeddedEngine engine; // Debezium EmbeddedEngine kullanilarak degisikliklerin yakalanmasi ve islenmesi saglandi.
     private final OutboxService outboxService;
@@ -47,10 +49,16 @@ public class DebeziumUtil {
         this.outboxService = outboxService;
     }
 
+    // SourceRecord, Debezium gibi bazi veri degisiklikleri izleme ve yakalama araclarinda kullanilan bir siniftir.
     private void handleEvent(SourceRecord sourceRecord) {
-        Struct sourceRecordValue = (Struct) sourceRecord.value();
+        // Degisiklik verisi islenir ve uygun bir sekilde kaydedilir.
+        Struct sourceRecordValue = (Struct) sourceRecord.value();// Kaynagin (sourceRecord) degerini alir.
+
+        // Degisiklik turunu (create, update, delete vb.) belirlemek icin kaynaktan CRUD operasyonunu al
         var crudOperation = (String) sourceRecordValue.get(OPERATION);
+
         //r for read //c for create //u for updates //d for delete
+        // CRUD islemleri kontrol edilir ve degisiklikler uygun sekilde islenir.
         if (sourceRecordValue != null && (crudOperation == "c" || crudOperation == "u")) {
             Struct struct = (Struct) sourceRecordValue.get(AFTER);
             Map<String, Object> payload = struct.schema().fields().stream()

@@ -17,7 +17,7 @@ public class DebeziumConnectorConfig {
                 .with("database.password", "toor") // PostgreSQL veritabani kullanici parolasini belirtir.
                 .with("database.dbname", "outbox_poc") // PostgreSQL veritabani adini belirtir.
                 .with("connector.class", "io.debezium.connector.postgresql.PostgresConnector") // PostgreSQL veritabani icin kullanilacak Debezium konektorunu belirtir.
-                .with("skipped.operations", "u,t,d") // Atlanan islem turlerini belirtir. // c for inserts/create, u for updates, d for deletes, t for truncates, and none to not skip any operations
+                .with("skipped.operations", "t,d") // Atlanan islem turlerini belirtir. // c for inserts/create, u for updates, d for deletes, t for truncates, and none to not skip any operations
                 .with("offset.storage", "org.apache.kafka.connect.storage.FileOffsetBackingStore") // Offset bilgilerinin saklanacagi depo turunu belirtir.
                 .with("offset.storage.file.filename", "offset.dat") // Offset bilgilerinin saklanacagi dosyanin yolunu belirtir.
                 .with("offset.flush.interval.ms", 60000) // Offset bilgilerinin ne siklikta kaydedilecegini belirtir (milisaniye cinsinden).
