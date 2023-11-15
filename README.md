@@ -16,6 +16,12 @@
 - [Build & Run](#build--run)
 - [Kaynakca](#kaynakca)
 
+# Sunum Kaydi:
+[Transactional Outbox Pattern](https://www.youtube.com/live/6Mkm_xu7zx8?si=dRhTrOvIulwl4t5c)
+
+    https://www.youtube.com/live/6Mkm_xu7zx8?si=X0Y-ubRC8s18z2IW
+
+
 ## Outbox Design Pattern Nedir?
 
 Outbox Design Pattern, dagitilmis sistemlerdeki veri tutarliligini ve guvenilirligi artirmak amaciyla kullanilan bir
