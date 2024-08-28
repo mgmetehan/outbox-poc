@@ -136,6 +136,34 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "addConnector Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"outbox\",\r\n    \"config\": {\r\n        \"connector.class\": \"io.debezium.connector.postgresql.PostgresConnector\",\r\n        \"tasks.max\": \"1\",\r\n        \"database.hostname\": \"db\",\r\n        \"database.port\": \"5432\",\r\n        \"database.user\": \"postgres\",\r\n        \"database.password\": \"example\",\r\n        \"database.dbname\": \"outbox\",\r\n        \"database.server.name\": \"postgres\",\r\n        \"topic.prefix\": \"order\",\r\n        \"table.include.list\": \"public.outbox\",\r\n        \"tombstones.on.delete\": \"false\",\r\n        \"table.field.event.payload\": \"payload\",\r\n        \"skipped.operations\": \"u,t,d\",\r\n        \"key.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n        \"key.converter.schemas.enable\": \"false\",\r\n        \"value.converter.schemas.enable\": \"false\",\r\n        \"transforms\": \"outbox\",\r\n        \"transforms.outbox.type\": \"io.debezium.transforms.outbox.EventRouter\",\r\n        \"transforms.outbox.table.expand.json.payload\": \"true\",\r\n        \"transforms.outbox.route.topic.replacement\": \"${routedByValue}\",\r\n        \"value.converter\": \"org.apache.kafka.connect.json.JsonConverter\",\r\n        \"route.topic.regex\": \"\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8083/connectors/",
+					"host": [
+						"localhost"
+					],
+					"port": "8083",
+					"path": [
+						"connectors",
+						""
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
